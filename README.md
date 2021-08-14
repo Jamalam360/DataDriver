@@ -1,1 +1,1 @@
-%description%
+A library to make things with JSON files
