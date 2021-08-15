@@ -24,25 +24,36 @@
 
 package io.github.jamalam360;
 
+import io.github.jamalam360.json.ParsedObject;
+import io.github.jamalam360.registration.DataDriverRegistry;
 import net.fabricmc.api.ModInitializer;
-
-import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class DataDriverModInit implements ModInitializer {
-    public static Logger LOGGER = LogManager.getLogger();
+import java.util.Arrays;
 
+public class DataDriverModInit implements ModInitializer {
     public static final String MOD_ID = "datadriver";
     public static final String MOD_NAME = "DataDriver";
+    public static Logger LOGGER = LogManager.getLogger();
+
+    public static void log(Level level, String message) {
+        LOGGER.log(level, message);
+    }
 
     @Override
     public void onInitialize() {
         log(Level.INFO, "Initializing '" + MOD_NAME + "' under the ID '" + MOD_ID + "'");
-    }
 
-    public static void log(Level level, String message){
-        LOGGER.log(level, message);
+        ParsedObject<?>[] toRegister = DataDriverRegistry.afterRegistry();
+
+        Arrays.stream(toRegister).forEach(parsedObject -> {
+            if (parsedObject.get() instanceof Enchantment) {
+                Registry.register(Registry.ENCHANTMENT, parsedObject.getId(), (Enchantment) parsedObject.get());
+            }
+        });
     }
 }

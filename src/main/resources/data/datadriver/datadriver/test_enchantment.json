@@ -1,0 +1,11 @@
+{
+  "type": "enchantment",
+  "identifier": "test_mod:test_enchantment",
+  "rarity": "COMMON",
+  "target": "BREAKABLE",
+  "slots": [
+    "MAINHAND"
+  ],
+  "cursed": "true",
+  "targetDamaged": "io.github.jamalam360.test.DataDriverModTest::targetDamagedTest"
+}
